@@ -31,6 +31,8 @@ jobs:
 
       - name: Build an image from Dockerfile
         run: |
+          pwd
+          ls -ltra
           docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
