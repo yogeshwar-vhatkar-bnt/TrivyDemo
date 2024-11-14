@@ -6,6 +6,6 @@ on:
 
 jobs:
   build:
-    name: Build
-    uses: .github/workflows/build.yml
+    name: build
+    uses: ./.github/workflows/build.yml
 
