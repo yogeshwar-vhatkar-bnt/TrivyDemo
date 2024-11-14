@@ -1,0 +1,28 @@
+name: 00 - Main CI / CD Pipeline
+
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/build.yml
+    secrets: inherit #https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecretsinherit
+
+  docker:
+    needs: build
+    name: Build docker image
+    uses: ./.github/workflows/docker.yml
+    secrets: inherit
+
+  container-image-scan:
+    needs: docker
+    name: Build docker image
+    uses: ./.github/workflows/container-image-scan.yml
+    secrets: inherit
+    with:
+      image-tag: ${{ needs.docker.outputs.image-tag }}
