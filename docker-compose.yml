@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: ubuntu-latest
+    image: ubuntu:latest
     container_name: trivy-demo
     build:
       context: .
