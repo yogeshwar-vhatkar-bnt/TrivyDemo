@@ -56,7 +56,6 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/trivy-demo:latest
 
-      
       - name: Install Trivy
         run: |
           sudo apt-get update -y
@@ -65,9 +64,6 @@ jobs:
           echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
           sudo apt-get update -y
           sudo apt-get install -y trivy
-          for i in {1..5}; do
-            trivy --download-db && break || sleep 60
-          done
           pwd
           ls -ltra
 
@@ -86,16 +82,16 @@ jobs:
           restore-keys: |
             trivy-${{ runner.os }}-
 
-     
       - name: Scan Docker image with Trivy and generate SARIF
         run: |
-          trivy image \
-            --format sarif \
-            --output trivy-results.sarif \
-            --severity HIGH,CRITICAL \
-            ghcr.io/${{ github.repository_owner }}/trivy-demo:latest
+          for i in {1..5}; do
+            trivy image \
+              --format sarif \
+              --output trivy-results.sarif \
+              --severity HIGH,CRITICAL \
+              ghcr.io/${{ github.repository_owner }}/trivy-demo:latest && break || sleep 60
+          done
 
-     
       - name: Upload SARIF report
         uses: github/codeql-action/upload-sarif@v3
         if: always()
@@ -111,7 +107,6 @@ jobs:
           path: trivy-results.sarif
           retention-days: 30
 
-    
       - name: Upload HTML Report
         if: always()
         uses: actions/upload-artifact@v3
