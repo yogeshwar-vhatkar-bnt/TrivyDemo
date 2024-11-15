@@ -1,4 +1,5 @@
-name: 40 - Aqua Trivy Scan Docker Image
+name: Aqua Trivy Scan Docker Image
+
 on:
   push:
     branches:
@@ -75,7 +76,7 @@ jobs:
           ls -ltra
 
       - name: Cache Trivy DB
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/trivy
           key: trivy-${{ runner.os }}-${{ github.sha }}
@@ -84,8 +85,9 @@ jobs:
 
       - name: Scan Docker image with Trivy and generate SARIF
         run: |
-          for i in {1..5}; do
+          for i in {1..3}; do
             trivy image \
+              --light \
               --format sarif \
               --output trivy-results.sarif \
               --severity HIGH,CRITICAL \
@@ -93,24 +95,16 @@ jobs:
           done
 
       - name: Upload SARIF report
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: trivy-results.sarif
           category: Trivy Scan
 
       - name: Upload Trivy SARIF report as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: trivy-sarif-report
           path: trivy-results.sarif
-          retention-days: 30
-
-      - name: Upload HTML Report
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: trivy-scan-results
-          path: trivy-report.html
           retention-days: 30
