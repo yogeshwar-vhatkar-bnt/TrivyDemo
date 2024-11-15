@@ -15,7 +15,7 @@ public class Greet {
 
     @GetMapping("/greet")
     public ResponseEntity<String> greet() {
-        System.out.println("Starting :: /api/trivydemo/greet");
+        System.out.println("Starting");
         logger.info("Starting :: /api/trivydemo/greet");
         return ResponseEntity.ok().body("Hello from Trivy Demo");
     }
