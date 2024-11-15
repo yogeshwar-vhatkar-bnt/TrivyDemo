@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu
 
 LABEL authors="yogeshwar.vhatkar"
 
