@@ -26,16 +26,13 @@ jobs:
           distribution: 'adopt'
 
       - name: Make gradlew executable
-        run: chmod +x Demo/gradlew
+        run: chmod +x ./gradlew
 
       - name: Set up Gradle
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Change to Demo directory
-        run: cd Demo && ls -l
-
       - name: Build the JAR file
-        run: cd Demo && ./gradlew build
+        run: ./gradlew build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -50,7 +47,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./Demo
+          context: .
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/gitactiondemo:latest
 
