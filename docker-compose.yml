@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: mcr.microsoft.com/openjdk/jdk:21-ubuntu
+    image: ubuntu-latest
     container_name: trivy-demo
     build:
       context: .
