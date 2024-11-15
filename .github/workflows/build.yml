@@ -37,4 +37,5 @@ jobs:
           chmod 755 ./gradlew
           ls -ltra
           ./gradlew build
+          mkdir candidate-binary && cp target/*.jar candidate-binary
 
