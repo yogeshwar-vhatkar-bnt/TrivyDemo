@@ -49,7 +49,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/gitactiondemo:latest
+          tags: ghcr.io/${{ github.repository_owner }}/trivy-demo:latest
 
       
       - name: Install Trivy
@@ -81,7 +81,7 @@ jobs:
             --format sarif \
             --output trivy-results.sarif \
             --severity HIGH,CRITICAL \
-            ghcr.io/${{ github.repository_owner }}/gitactiondemo:latest
+            ghcr.io/${{ github.repository_owner }}/trivy-demo:latest
 
      
       - name: Upload SARIF report
