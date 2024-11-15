@@ -38,4 +38,8 @@ jobs:
           ls -ltra
           ./gradlew build
           mkdir candidate-binary && cp build/libs/*.jar candidate-binary
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Application-Binary
+          path: candidate-binary
 
